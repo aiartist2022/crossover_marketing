@@ -99,20 +99,26 @@ SERVICES = [
 ]
 
 
-# placeholder image shown for each service (images/ph/sNN.svg)
-WORK = ["Strategy placeholder", "Social media placeholder", "Content shoot placeholder", "Paid media placeholder",
-        "Influencer placeholder", "Search placeholder", "Campaign / OOH placeholder", "PR placeholder"]
+# image shown for each service (images/work/sNN.webp)
+WORK = ["JULY Capsule launch — welcome board", "Priyanka Chopra Jonas — kitchen content shoot, New York",
+        "Priyanka Chopra Jonas — live on the Morning Joe set", "Campaign — sneaker product shot",
+        "Campaign — creators with product", "JULY — luggage display at the Capsule launch",
+        "Campaign — street fashion shoot", "Homebound — screening Q&A on stage"]
 
-# selected work (images/ph/w-project-N.svg) — CONFIRM PROJECTS, then swap names, copy and images
+# selected work (images/work/w-*.webp)
 PROJECTS = [
-    ("project-1", "FuelFest", "Event marketing · Social · Content",
-     "One line on the brief, and what the work made happen.", "FuelFest — placeholder"),
-    ("project-2", "Open Fire Food Festival", "Launch · Social · Influencer",
-     "One line on the brief, and what the work made happen.", "Open Fire Food Festival — placeholder"),
-    ("project-3", "Culligan Middle East", "Content · Paid media",
-     "One line on the brief, and what the work made happen.", "Culligan Middle East — placeholder"),
-    ("project-4", "Athletifreak", "Social · Reels · Community",
-     "One line on the brief, and what the work made happen.", "Athletifreak — placeholder"),
+    ("july", "JULY — Capsule", "Launch · Event content · Social",
+     "The launch of the JULY Capsule collection. Product, people and the room, shot to feed the brand's channels.",
+     "JULY Capsule launch — luggage styled with champagne"),
+    ("pcj-newyork", "Priyanka Chopra Jonas — New York", "Press day · Content · PR",
+     "A New York press day, from the Morning Joe studio to the street, with content captured for every channel.",
+     "Priyanka Chopra Jonas — toast during a New York press day"),
+    ("homebound", "Homebound — Screening & Q&A", "Screening · Event coverage · PR",
+     "A screening and Q&A. We covered the cast, the conversation and the room for press and social.",
+     "Homebound — cast and team at the screening"),
+    ("karan-metgala", "Karan — Met Gala 2026", "Red carpet · Content · Social",
+     "Met Gala 2026, documented from the fitting to the red carpet: the look, the details and the arrival.",
+     "Karan at the Met Gala 2026 in an embroidered cape"),
 ]
 
 
@@ -121,8 +127,8 @@ def works():
     for n, (key, name, tags, short, alt) in enumerate(PROJECTS, 1):
         e = html.escape
         out.append(f'''
-        <article class="work-item wi-{n}" data-cursor="{e(name.lower())}">
-          <div class="work-media"><div class="work-media-in"><img class="work-img" src="images/ph/w-{key}.svg" alt="{e(alt)}" loading="lazy"></div></div>
+        <article class="work-item wi-{n}" data-cursor="view">
+          <div class="work-media"><div class="work-media-in"><img class="work-img" src="images/work/w-{key}.webp" alt="{e(alt)}" loading="lazy"></div></div>
           <div class="work-meta"><h3 class="work-name" line>{e(name)}</h3><span class="label work-num">{n:02d}</span></div>
           <p class="work-tags label" line>{e(tags)}</p>
           <p class="work-short p-m" line>{e(short)}</p>
@@ -134,14 +140,14 @@ REELS = [("reel-1", "Launch teaser"), ("reel-2", "Founder-led"), ("reel-3", "Pro
 
 
 def reels():
-    """Vertical 9:16 reel slots. Drop real files in videos/reel-N.mp4 (poster: images/ph/reel-N.svg)."""
+    """Vertical 9:16 reel slots. Drop real files in videos/reel-N.mp4 (poster: images/work/reel-N-poster.webp)."""
     out = []
     offs = [-6, 4, -10, 2]
     for n, (key, cap) in enumerate(REELS, 1):
         e = html.escape
         out.append(f'''
         <figure class="reel-card rc-{n}" parallax parallax-y="{offs[n - 1]}" data-cursor="play">
-          <div class="reel-card-media"><video src="videos/{key}.mp4" poster="images/ph/{key}.svg" autoplay muted loop playsinline preload="none" aria-label="{e(cap)}"></video></div>
+          <div class="reel-card-media"><video src="videos/{key}.mp4" poster="images/work/{key}-poster.webp" autoplay muted loop playsinline preload="none" aria-label="{e(cap)}"></video></div>
           <figcaption class="label reel-card-cap"><span>{n:02d}</span><span>{e(cap)}</span></figcaption>
         </figure>''')
     return ''.join(out)
@@ -156,7 +162,7 @@ def services():
         <article class="service-item si-{n}" data-idx="{n:02d}">
           <div class="service-head"><span class="label service-num">{n:02d}</span><h3 class="service-title" line>{e(title)}</h3></div>
           <p class="service-short p-m" line>{e(short)}</p>
-          <div class="service-media" data-cursor="explore"><div class="service-media-in"><img src="images/ph/s{n:02d}.svg" alt="{e(WORK[n - 1])}" loading="lazy"></div></div>
+          <div class="service-media" data-cursor="explore"><div class="service-media-in"><img src="images/work/s{n:02d}.webp" alt="{e(WORK[n - 1])}" loading="lazy"></div></div>
           <ul class="service-bullets p-s">{lis}</ul>
         </article>''')
     return ''.join(out)
