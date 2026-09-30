@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" width="1920" height="1080" preserveAspectRatio="xMidYMid slice">
+<defs>
+<linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F2EADF"/><stop offset=".6" stop-color="#DCC9B0"/><stop offset="1" stop-color="#AE9679"/></linearGradient>
+<linearGradient id="arch" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#AE9679" stop-opacity=".55"/><stop offset="1" stop-color="#F2EADF" stop-opacity=".9"/></linearGradient>
+<radialGradient id="sph" cx=".35" cy=".3" r=".75"><stop offset="0" stop-color="#F2EADF"/><stop offset=".7" stop-color="#DCC9B0"/><stop offset="1" stop-color="#AE9679"/></radialGradient>
+<linearGradient id="beam" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".22"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+<filter id="g"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" stitchTiles="stitch"/><feColorMatrix values="0 0 0 0 .3  0 0 0 0 .22  0 0 0 0 .15  0 0 0 .09 0"/></filter>
+</defs>
+<rect width="1920" height="1080" fill="url(#bg)"/>
+<g transform="rotate(35 960 540)"><rect x="688" y="-1080" width="146" height="3240" fill="url(#beam)"/><rect x="1504" y="-1080" width="148" height="3240" fill="url(#beam)"/></g>
+<circle cx="1120" cy="569" r="185" fill="none" stroke="#5C3F27" stroke-opacity=".35" stroke-width="4.3"/><circle cx="1120" cy="569" r="131" fill="#F5EFE6" fill-opacity=".55"/><path d="M1076 509 L1188 569 L1076 630 Z" fill="#5C3F27" fill-opacity=".8"/>
+<rect width="1920" height="1080" filter="url(#g)"/>
+<g font-family="IBM Plex Mono, Menlo, monospace" fill="#5C3F27" opacity=".78">
+<text x="43" y="65" font-size="23.8" letter-spacing="2">VIDEO PLACEHOLDER · SHOWREEL</text>
+<text x="43" y="1037" font-size="26.1" letter-spacing="1">Marketing showreel — 16:9 loop</text>
+<text x="1877" y="1037" font-size="23.8" text-anchor="end" letter-spacing="1">1920×1080</text>
+</g></svg>
