@@ -49,6 +49,16 @@ Keep each loop under roughly 8 MB (H.264, no audio track).
 
 To swap an image, export a webp at the same size and replace the file, or change the path in `src/build.py` (services, work, reels) or `src/index.template.html` (everything else), then rebuild. `python3 src/placeholders.py` regenerates labelled placeholder art in `images/ph/` if you need blank slots again.
 
+## Hero material reveal
+
+Moving the pointer over the hero opens liquid-edged holes that show the logo in changing materials (clouds, glass, bronze, satin). Same technique as noth.in, written from scratch in `js/hero-reveal.js` (plain WebGL2, no libraries).
+
+- **Video:** `videos/hero-materials.mp4` (H.264) and `videos/hero-materials.webm` (VP9 fallback). 1280×720, about 19.5 s, seamless loop. Generated on Higgsfield (Seedance 2.5) from the logo reference frame; the last 0.6 s is cross-faded into the start so the loop doesn't jump.
+- **Alignment:** the video is drawn locked to the live position of the hero logo, so it follows the intro animation and scroll parallax. The logo's position inside the video frame is set in `FRAME` at the top of `hero-reveal.js` (left / top / width as fractions of the frame). If you replace the video, re-measure those values or keep the logo in exactly the same place.
+- **Check alignment:** open the site with `?reveal-debug` on the URL to overlay the whole video at half opacity.
+- **Feel:** `splatRadius` (brush size), `dyeDissipation` (how long holes stay open), `revealSize` / `edgeSoftness` / `edgeWidth` (edge sharpness) in the `S` settings object.
+- Turns itself off for reduced-motion users and on browsers without WebGL2 float render targets, where the plain logo shows as normal. Sleeps when idle or scrolled away.
+
 ## Contact
 
 - Main email: **info@crossoverproductions.ae**. Every "email" button opens a message to info@ with **chelsi@crossoverproductions.in** copied in.
@@ -66,6 +76,7 @@ To swap an image, export a webp at the same size and replace the file, or change
 index.html              built page (generated)
 css/crossover.css       all styles (1rem = 10px at 1440px, fluid)
 js/crossover.js         motion system
+js/hero-reveal.js       hero material reveal (WebGL fluid mask over videos/hero-materials)
 images/                 Crossover Marketing logo (gradient / white / black), favicon, work/ photography
 videos/                 drop real video files here
 src/                    template, build script, placeholder generator
