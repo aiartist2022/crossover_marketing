@@ -248,6 +248,8 @@
   }
 
   function heroScroll() {
+    // fold the desktop nav links into the menu button once the hero has scrolled away
+    ScrollTrigger.create({ trigger: '.hero', start: '70% top', onEnter: () => html.classList.add('is-scrolled'), onLeaveBack: () => html.classList.remove('is-scrolled') });
     if (reduce) return;
     const st = { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true };
     gsap.to('.hero-svg', { yPercent: 38, scale: 0.94, transformOrigin: '50% 100%', ease: 'none', scrollTrigger: st });
@@ -269,10 +271,6 @@
       gsap.from(letters, {
         yPercent: 105, duration: 1.6, ease: EASE, stagger: { each: 0.05, from: 'random' },
         scrollTrigger: { trigger: '.services-word', start: 'top 85%', once: true },
-      });
-      gsap.to(letters, {
-        yPercent: (i) => (i % 2 ? -12 : 8), ease: 'none',
-        scrollTrigger: { trigger: '.services-word', start: 'top 40%', end: 'bottom top', scrub: 1 },
       });
     }
 
@@ -367,44 +365,37 @@
     });
   }
 
-  /* ---------- Mission M glitch ---------- */
-  function glitch() {
-    const layers = $$('.glitch-layer');
-    const finalEl = $('.glitch-final');
-    const split = SplitText.create(finalEl, { type: 'lines', mask: 'lines', linesClass: 'line-child' });
-    gsap.set(split.lines, { yPercent: 110 });
-    gsap.set('.glitch-copy', { opacity: 0, y: 30 });
-    if (reduce) {
-      gsap.set(layers, { opacity: 0 });
-      gsap.set(split.lines, { yPercent: 0 });
-      gsap.set('.glitch-copy', { opacity: 1, y: 0 });
-      return;
+  /* ---------- How we work: the Crossover Loop ----------
+     Three steps (Plan / Make / Run). The text column is sticky; scrolling through it
+     lights one step at a time, swaps the explanatory line and fills the progress bar.
+     State changes only when the step changes, so nothing jitters while scrolling. */
+  function loop() {
+    const words = $$('.loop-word');
+    const steps = $$('.loop-step');
+    const bar = $('.loop-progress i');
+    let current = -1;
+    const setStep = (n) => {
+      if (n === current) return;
+      current = n;
+      words.forEach((w, k) => { w.classList.toggle('is-active', k === n); w.classList.toggle('is-done', k < n); });
+      steps.forEach((p, k) => p.classList.toggle('is-active', k === n));
+    };
+    setStep(0);
+    if (!reduce) {
+      gsap.from($$('.loop-word > *'), {
+        yPercent: 60, opacity: 0, duration: 1.2, ease: EASE, stagger: 0.08,
+        clearProps: 'transform,opacity',
+        scrollTrigger: { trigger: '.glitch-text-w', start: 'top 70%', once: true },
+      });
     }
-    const tl = gsap.timeline({ paused: true })
-      .to(split.lines, { yPercent: 0, stagger: 0.04, duration: 0.14, ease: 'power3.out' }, 0.7)
-      .to('.glitch-copy', { opacity: 1, y: 0, duration: 0.1 }, 0.82)
-      .to({}, { duration: 0.08 });
-    const rnd = gsap.utils.random;
-    let frame = 0;
     ScrollTrigger.create({
       trigger: '.glitch-text-w', start: 'top top', end: 'bottom bottom',
       onUpdate(self) {
         const p = self.progress;
-        tl.progress(p);
-        if (frame++ % 2) return; // stepped jitter reads as glitch, not noise
-        const i = gsap.utils.clamp(0, 1, 1 - p / 0.62);
-        const fade = p < 0.64 ? 1 : Math.max(0, 1 - (p - 0.64) / 0.06);
-        layers.forEach((l, k) => {
-          const base = k === 3;
-          const a = rnd(0, 70), b = rnd(0, 100 - a - 5);
-          gsap.set(l, {
-            x: base ? 0 : rnd(-1, 1) * i * 90,
-            y: base ? 0 : rnd(-1, 1) * i * 24,
-            clipPath: base || i < 0.03 ? 'inset(0% 0% 0% 0%)' : `inset(${a}% 0% ${b}% 0%)`,
-            opacity: fade * (base ? 0.2 : 1),
-          });
-        });
+        setStep(Math.min(words.length - 1, Math.floor(p * words.length * 0.999)));
+        gsap.set(bar, { scaleX: p });
       },
+      onLeaveBack: () => { setStep(0); gsap.set(bar, { scaleX: 0 }); },
     });
   }
 
@@ -454,11 +445,15 @@
     work();
     philosophy();
     parallax();
-    glitch();
+    loop();
     shift();
     marquee();
     footer();
     runLoader().then(heroIntro);
-    addEventListener('load', () => ScrollTrigger.refresh());
+    // Triggers were created in feature order, not page order. Sort them by position so the
+    // pinned Philosophy section's spacer is accounted for before anything below it is measured.
+    ScrollTrigger.sort();
+    ScrollTrigger.refresh();
+    addEventListener('load', () => { ScrollTrigger.sort(); ScrollTrigger.refresh(); });
   });
 })();

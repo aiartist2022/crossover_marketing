@@ -217,14 +217,19 @@ a:hover .roll-in, .btn:hover .roll-in, [data-roll]:hover > .roll-in { transform:
 .nav-logo { width: 13rem; display: block; }
 .nav-svg { width: 100%; height: auto; }
 .nav-links { display: flex; flex-direction: column; align-items: flex-end; gap: .2rem; font-family: var(--f-mono); font-size: 1.1rem; letter-spacing: .06em; text-transform: uppercase; }
-.menu-btn { display: none; align-items: center; gap: 1rem; font-family: var(--f-mono); font-size: 1.2rem; text-transform: uppercase; letter-spacing: .06em; }
+.nav-links { transition: opacity .5s var(--ease), transform .7s var(--ease), visibility 0s .7s; }
+/* Desktop: once past the hero the text links fold away into the menu button, so they never sit over page copy */
+.menu-btn { position: absolute; top: 2rem; right: var(--gutter); display: inline-flex; align-items: center; gap: 1rem; font-family: var(--f-mono); font-size: 1.2rem; text-transform: uppercase; letter-spacing: .06em; opacity: 0; transform: translateY(-.8rem); pointer-events: none; visibility: hidden; transition: opacity .5s var(--ease), transform .7s var(--ease), visibility 0s .7s; }
+.is-scrolled .nav-links { opacity: 0; transform: translateY(-1.2rem); pointer-events: none; visibility: hidden; }
+.is-scrolled .menu-btn, .menu-open .menu-btn { opacity: 1; transform: none; pointer-events: auto; visibility: visible; transition-delay: 0s; }
+.is-scrolled .nav-links { transition-delay: 0s; }
 .menu-btn-lines { display: grid; gap: .5rem; width: 2.2rem; }
 .menu-btn-lines i { display: block; height: 1px; background: currentColor; transition: transform .6s var(--ease); }
 .menu-open .menu-btn-lines i:first-child { transform: translateY(.3rem) rotate(45deg); }
 .menu-open .menu-btn-lines i:last-child { transform: translateY(-.3rem) rotate(-45deg); }
 @media (max-width: 991px) {
   .nav-links { display: none; }
-  .menu-btn { display: inline-flex; }
+  .menu-btn { opacity: 1; transform: none; pointer-events: auto; visibility: visible; }
 }
 @media (max-width: 767px) {
   .nav-logo { width: 12rem; }
@@ -292,7 +297,7 @@ a:hover .roll-in, .btn:hover .roll-in, [data-roll]:hover > .roll-in { transform:
   display: flex; justify-content: space-between; padding: 0 var(--gutter);
   mix-blend-mode: difference; color: #fff;
 }
-.services-sticky > * { transform: translateY(8.4rem); }
+.services-sticky > * { transform: translateY(12rem); }
 .services-count b { font-weight: 400; display: inline-block; }
 .services-word { display: flex; justify-content: space-between; font-size: 22rem; font-weight: 500; line-height: .8; letter-spacing: -.06em; text-transform: uppercase; overflow: hidden; padding-bottom: .04em; }
 .services-word span { display: block; background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
@@ -450,24 +455,31 @@ a:hover .roll-in, .btn:hover .roll-in, [data-roll]:hover > .roll-in { transform:
 .glitch-text-w { height: 320vh; position: relative; }
 .glitch-sticky { position: sticky; top: 0; height: 100vh; padding: 8.4rem var(--gutter) 4rem; display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; }
 .glitch-label { color: var(--muted-d); }
-.glitch-stack { position: absolute; left: var(--gutter); right: var(--gutter); top: 50%; transform: translateY(-50%); }
-.glitch-layer { position: absolute; left: 0; top: 0; transform: translateY(-50%); font-size: 10.4rem; font-weight: 500; line-height: .9; letter-spacing: -.05em; text-transform: lowercase; white-space: nowrap; will-change: transform, clip-path; }
-.g1 { color: var(--bronze-l); mix-blend-mode: screen; }
-.g2 { color: var(--bronze-d); }
-.g3 { color: #D8B98F; mix-blend-mode: screen; }
-.g4 { color: var(--cream); opacity: .2; }
-.g5 { color: var(--bronze); mix-blend-mode: screen; }
-.glitch-final { position: absolute; left: var(--gutter); top: 50%; transform: translateY(-50%); font-size: 10.4rem; font-weight: 500; line-height: .9; letter-spacing: -.05em; }
-.glitch-final .line-mask { padding-bottom: .06em; }
-.glitch-copy { max-width: 48rem; align-self: flex-end; color: var(--muted-d); }
+/* The Crossover Loop — three steps, one lit at a time as you scroll */
+.loop-top { display: flex; flex-direction: column; gap: .8rem; }
+.loop-title { color: var(--bronze-l); }
+.loop-words { display: flex; flex-direction: column; gap: .6rem; font-size: 10.4rem; font-weight: 500; line-height: .95; letter-spacing: -.05em; }
+.loop-word { display: flex; align-items: flex-start; gap: 2.4rem; opacity: .18; transform: translateX(0); transition: opacity .7s var(--ease), transform .9s var(--ease), color .7s var(--ease); }
+.loop-word.is-done { opacity: .42; }
+.loop-word.is-active { opacity: 1; transform: translateX(2.4rem); }
+.loop-word.is-active .loop-w { background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; background-image: linear-gradient(180deg, #E6C79C 0%, #B48655 100%); }
+.loop-num { padding-top: 1.6rem; min-width: 3rem; color: var(--muted-d); }
+.loop-word.is-active .loop-num { color: var(--gold); }
+.loop-foot { display: flex; flex-direction: column; gap: 2.4rem; align-self: flex-end; width: 100%; max-width: 52rem; }
+.loop-steps { display: grid; color: var(--muted-d); }
+.loop-step { grid-area: 1 / 1; opacity: 0; transform: translateY(1.6rem); transition: opacity .6s var(--ease), transform .8s var(--ease); }
+.loop-step.is-active { opacity: 1; transform: none; color: var(--cream); }
+.loop-progress { height: 1px; background: rgba(245,239,230,.15); overflow: hidden; }
+.loop-progress i { display: block; height: 100%; background: var(--bronze-l); transform-origin: 0 50%; transform: scaleX(0); }
 @media (max-width: 991px) {
   .glitch { grid-template-columns: 1fr; }
   .glitch-img-w { height: 60vh; position: relative; }
-  .glitch-layer, .glitch-final { font-size: 9.6rem; }
+  .loop-words { font-size: 9.6rem; }
   .glitch-text-w { height: 260vh; }
 }
 @media (max-width: 479px) {
-  .glitch-layer, .glitch-final { font-size: 6.4rem; }
+  .loop-words { font-size: 6.4rem; }
+  .loop-word.is-active { transform: translateX(1.2rem); }
 }
 
 /* ---------- Shift ---------- */

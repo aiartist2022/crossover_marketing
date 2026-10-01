@@ -49,11 +49,15 @@ Keep each loop under roughly 8 MB (H.264, no audio track).
 
 To swap an image, export a webp at the same size and replace the file, or change the path in `src/build.py` (services, work, reels) or `src/index.template.html` (everything else), then rebuild. `python3 src/placeholders.py` regenerates labelled placeholder art in `images/ph/` if you need blank slots again.
 
+## Contact
+
+- Main email: **info@crossoverproductions.ae**. Every "email" button opens a message to info@ with **chelsi@crossoverproductions.in** copied in.
+- The contact block lists both addresses.
+
 ## To confirm before launch
 
 - [ ] Selected work: check the one-line descriptions for JULY, Priyanka Chopra Jonas — New York, Homebound and Karan — Met Gala 2026.
 - [ ] Get sign-off for using celebrity and client imagery on a marketing site.
-- [ ] Contact: the phone numbers and emails currently match the Branding site (purvak@). Change them if Marketing has its own inbox.
 - [ ] "Book a call" dials +971 56 491 4000. Swap in a booking link if there is one.
 
 ## Structure
